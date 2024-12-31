@@ -1,0 +1,53 @@
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="card w-50">
+        <div class="card-header">
+            <h3 class="text-center">LOGIN</h3>
+        </div>
+        <div class="card-body">
+            <form #loginform="ngForm">
+                <div class="row">
+                    <div class="col-12">
+                        <label>Username</label>
+                        <input type="text" class="form-control mt-2" [(ngModel)]="userObj.username" #username="ngModel" name="username"  pattern="^[A-Za-z][A-Za-z0-9_]{4,8}$">
+                        <div *ngIf="!userObj.username && (username.touched || submitted)" class="text-danger">Username is required</div>
+                        <div *ngIf="username.errors?.['pattern']" class="text-danger">Username must be valid</div>
+
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <label>Password</label>
+                        <div class="position-relative">
+                            <input
+                              type="{{ showPassword ? 'text' : 'password' }}"
+                              class="form-control mt-2"
+                              [(ngModel)]="userObj.password"
+                              #password="ngModel"
+                              pattern="^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$"
+                              name="password" minlength="8" maxlength="15"
+                              required
+                            />
+                            <i class="fa fa-solid fa fa-eye position-absolute top-50 end-0 translate-middle-y me-2"  [class.fa-eye]="!showPassword"
+                            [class.fa-eye-slash]="showPassword"   (click)="togglePasswordVisibility()"
+                            ></i>
+                          </div>
+                          
+                        <div *ngIf="!userObj.password && (password.touched || submitted)" class="text-danger">Password is required</div>
+                        <div *ngIf="password.errors?.['minlength']" class="text-danger">Password must have atleast 8 characters</div>
+                        <div *ngIf="password.errors?.['pattern'] && !password.errors?.['minlength']" class="text-danger">Password must have 1 caps,1 special symbol and a number</div>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12 text-end">
+                        <a href="/">Forgot Password</a>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12 d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg" (click)="submitForm(loginform)">Login</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
